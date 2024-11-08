@@ -41,3 +41,10 @@ _bert_tokenizer/
 _bert_romeo_and_juliet/
 _bert_romeo_and_juliet_model/
 _bert_romeo_and_juliet_tokenizer/
+
+
+# GTP Model
+_gpt_tokenizer/
+_gpt_romeo_and_juliet/
+_gpt_romeo_and_juliet_model/
+_gpt_romeo_and_juliet_tokenizer/

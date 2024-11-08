@@ -5,6 +5,7 @@ from transformers import DataCollatorForLanguageModeling, Trainer, TrainingArgum
 from datasets import Dataset
 import torch
 
+
 def clean_text(file_path):
     with open(file_path, "r", encoding="utf-8") as f:
         text = f.read()
@@ -19,27 +20,30 @@ def clean_text(file_path):
 
     # Clean up extra spaces and newlines
     text = text.replace("\n\n", "\n").strip()
-    
+
     return text
+
 
 def split_text(text, max_length=512):
     sentences = text.split("\n")
     chunks = []
     chunk = ""
-    
+
     for sentence in sentences:
         if len(chunk) + len(sentence) > max_length:
             chunks.append(chunk)
             chunk = ""
         chunk += sentence + "\n"
-    
+
     if chunk:
         chunks.append(chunk)
-    
+
     return chunks
+
 
 def tokenize_function(examples):
     return tokenizer(examples["text"], truncation=True, max_length=128)
+
 
 ##### MAIN #####
 
@@ -62,7 +66,7 @@ text_chunks = split_text(cleaned_text)
 dataset = Dataset.from_dict({"text": text_chunks})
 
 # Initialize a BertTokenizerFast and train it on your data
-tokenizer = BertTokenizerFast.from_pretrained('bert-base-uncased')
+tokenizer = BertTokenizerFast.from_pretrained("bert-base-uncased")
 
 # Train tokenizer on your dataset
 tokenizer = tokenizer.train_new_from_iterator(dataset["text"], vocab_size=30522)
@@ -78,14 +82,16 @@ config = BertConfig(
     hidden_size=768,
     num_hidden_layers=12,
     num_attention_heads=12,
-    intermediate_size=3072
+    intermediate_size=3072,
 )
 
 # Initialize the model
 model = BertForMaskedLM(config)
 
 # Tokenize the dataset
-tokenized_dataset = dataset.map(tokenize_function, batched=True, remove_columns=["text"])
+tokenized_dataset = dataset.map(
+    tokenize_function, batched=True, remove_columns=["text"]
+)
 
 # Create Data Collator
 data_collator = DataCollatorForLanguageModeling(
@@ -101,7 +107,7 @@ training_args = TrainingArguments(
     save_steps=500,
     save_total_limit=2,
     logging_steps=100,
-    report_to="none"  # Disable logging to Wandb or other services
+    report_to="none",  # Disable logging to Wandb or other services
 )
 
 # Initialize Trainer
