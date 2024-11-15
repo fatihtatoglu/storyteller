@@ -35,6 +35,7 @@ transformers_cache/
 
 # Veri Dosyaları
 *.txt
+books/
 
 # BERT Model
 _bert_tokenizer/
@@ -48,3 +49,6 @@ _gpt_tokenizer/
 _gpt_romeo_and_juliet/
 _gpt_romeo_and_juliet_model/
 _gpt_romeo_and_juliet_tokenizer/
+_gpt_combined_books/
+_gpt_combined_books_model/
+_gpt_combined_books_tokenizer/
