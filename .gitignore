@@ -36,6 +36,7 @@ transformers_cache/
 # Veri Dosyaları
 *.txt
 books/
+data_files/
 
 # BERT Model
 _bert_tokenizer/
